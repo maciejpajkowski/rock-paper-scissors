@@ -1,0 +1,53 @@
+if (i == rock && cpuWeapon == scissors) {
+				user_weapon.innerText = "ROCK!";
+				user_weapon.style.fontStyle = "normal";
+				userScore++;
+				user_score.innerText = userScore;
+				winner.innerText = "< WINNER!";
+			} else if (i == rock && cpuWeapon == rock) {
+				user_weapon.innerText = "ROCK!";
+				user_weapon.style.fontStyle = "normal";
+				winner.innerText = "DRAW!";
+			} else if (i == rock && cpuWeapon == paper) {
+				user_weapon.innerText = "ROCK!";
+				user_weapon.style.fontStyle = "normal";
+				winner.innerText = "WINNER! >";
+				cpuScore++;
+				cpu_score.innerText = cpuScore;
+			}
+			
+			if (i == paper && cpuWeapon == rock) {
+				user_weapon.innerText = "PAPER!";
+				user_weapon.style.fontStyle = "normal";
+				userScore++;
+				user_score.innerText = userScore;
+				winner.innerText = "< WINNER!";
+			} else if (i == paper && cpuWeapon == paper) {
+				user_weapon.innerText = "PAPER!";
+				user_weapon.style.fontStyle = "normal";
+				winner.innerText = "DRAW!";
+			} else if (i == paper && cpuWeapon == scissors) {
+				user_weapon.innerText = "PAPER!";
+				user_weapon.style.fontStyle = "normal";
+				winner.innerText = "WINNER! >";
+				cpuScore++;
+				cpu_score.innerText = cpuScore;
+			}
+			
+			if (i == scissors && cpuWeapon == paper) {
+				user_weapon.innerText = "SCISSORS!";
+				user_weapon.style.fontStyle = "normal";
+				userScore++;
+				user_score.innerText = userScore;
+				winner.innerText = "< WINNER!";
+			} else if (i == scissors && cpuWeapon == scissors) {
+				user_weapon.innerText = "SCISSORS!";
+				user_weapon.style.fontStyle = "normal";
+				winner.innerText = "DRAW!";
+			} else if (i == scissors && cpuWeapon == rock) {
+				user_weapon.innerText = "SCISSORS!";
+				user_weapon.style.fontStyle = "normal";
+				winner.innerText = "WINNER! >";
+				cpuScore++;
+				cpu_score.innerText = cpuScore;
+			}

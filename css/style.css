@@ -1,0 +1,119 @@
+* {
+	margin: 0;
+	font-family: 'Verdana', sans-serif;
+	overflow: hidden;
+}
+
+#container {
+	position: relative;
+	width: 90vw;
+	height: 90vh;
+	margin: 5vh 5vw;
+	background-color: lightcyan;
+	border: 3px solid lightblue;
+}
+
+#container .panel {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	float: left;
+	width: 32%;
+	height: 100%;
+	padding: 1%;
+}
+
+#container .middle_panel {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	width: 30%;
+	height: 100%;
+	float: left;
+}
+
+#container .middle_panel .timer {
+    font-size: 30px;
+    margin: 20px 0;
+}
+
+#container .middle_panel .winner {
+    margin: 30px 0;
+    font-size: 40px;
+}
+
+#container .middle_panel .youwin {
+    animation-name: winner;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+}
+
+@keyframes winner {
+    0%, 100% {
+        transform: scale (1) rotate (0deg); 
+        background-color: red;
+    }
+    25% {
+        transform: scale(1.5) rotate(20deg);
+    }
+    50% {
+        transform: scale(1) rotate(0deg);
+        background-color: blue;
+    }
+    75% {
+        transform: scale(1.5) rotate(-20deg);
+    }
+}
+
+#container .middle_panel .options h4 {
+    display: none;
+    font-size: 18px;
+    padding: 10px;
+}
+
+#container .middle_panel .options .startgame {
+	margin: 10px;
+	width: 90%;
+	height: 50px;
+	font-size: 26px;
+    display: none;
+}
+
+#container .panel h3 {
+	margin-top: 60px;
+}
+
+#container .panel .score {
+	font-size: 100px;
+	padding: 20px;
+}
+
+#container .panel .weapon {
+	font-size: 26px;
+	border: 5px solid lightblue;
+	padding: 20px;
+	margin: 20px 0;
+	font-style: italic;
+}
+
+#container .panel .btn {
+	height: 60px;
+	font-size: 26px;
+	font-weight: bold;
+	width: 60%;
+	margin: 15px auto;
+}
+
+#container .panel h2 {
+	margin: 110px 0;
+	font-weight: 100;
+	font-size: 30px;
+	font-style: italic;
+	color: red;
+}
+
+#container .panel .version {
+	position: absolute;
+	right: 0;
+	bottom: 0;

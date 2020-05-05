@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Rock, Paper, Scissors!</title>
+	<style>
+        * {
+            margin: 0;
+            font-family: 'Verdana', sans-serif;
+            overflow: hidden;
+        }
+
+        #container {
+            position: relative;
+            width: 90vw;
+            height: 90vh;
+            margin: 5vh 5vw;
+            background-color: lightcyan;
+            border: 3px solid lightblue;
+        }
+
+        #container .panel {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            float: left;
+            width: 32%;
+            height: 100%;
+            padding: 1%;
+        }
+
+        #container .middle_panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 30%;
+            height: 100%;
+            float: left;
+        }
+
+        #container .middle_panel .timer {
+            font-size: 30px;
+            margin: 20px 0;
+        }
+
+        #container .middle_panel .winner {
+            margin: 30px 0;
+            font-size: 40px;
+        }
+
+        #container .middle_panel .youwin {
+            animation-name: winner;
+            animation-iteration-count: infinite;
+            animation-duration: 2s;
+        }
+
+        @keyframes winner {
+            0%, 100% {
+                transform: scale (1) rotate (0deg); 
+                background-color: red;
+            }
+            25% {
+                transform: scale(1.5) rotate(20deg);
+            }
+            50% {
+                transform: scale(1) rotate(0deg);
+                background-color: blue;
+            }
+            75% {
+                transform: scale(1.5) rotate(-20deg);
+            }
+        }
+
+        #container .middle_panel .options h4 {
+            display: none;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        #container .middle_panel .options .startgame {
+            margin: 10px;
+            width: 90%;
+            height: 50px;
+            font-size: 26px;
+            display: none;
+        }
+
+        #container .panel h3 {
+            margin-top: 60px;
+        }
+
+        #container .panel .score {
+            font-size: 100px;
+            padding: 20px;
+        }
+
+        #container .panel .weapon {
+            font-size: 26px;
+            border: 5px solid lightblue;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        #container .panel .btn {
+            height: 60px;
+            font-size: 26px;
+            font-weight: bold;
+            width: 60%;
+            margin: 15px auto;
+        }
+
+        #container .panel h2 {
+            margin: 110px 0;
+            font-weight: 100;
+            font-size: 30px;
+            font-style: italic;
+            color: red;
+        }
+
+        #container .panel .version {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+    </style>
+</head>
+<body>
+	<div id="container">
+		<div class="panel">
+			<h3>YOUR SCORE:</h3>
+			<h1 class="score user_score">0</h1>
+			<p class="weapon user_weapon">Awaiting selection...</p>
+			<button class="btn rock" value="rock">ROCK</button>
+			<button class="btn paper" value="paper">PAPER</button>
+			<button class="btn scissors" value="scissors">SCISSORS</button>
+		</div>
+		<div class="panel middle_panel">
+			<div class="timer"></div>
+			<div class="winner"></div>
+			<div class="options">
+				<h4>Options:</h4>
+				<button class="startgame">RESTART</button>
+			</div>
+		</div>
+		<div class="panel">
+			<h3>OPPONENT SCORE:</h3>
+			<h1 class="score cpu_score">0</h1>
+			<p class="weapon cpu_weapon">Awaiting selection...</p>
+			<h2>Your opponent</h2>
+			<p class="version">v1.0 STANDALONE</p>
+		</div>
+	</div>
+	<script>
+        var user_weapon = document.getElementsByClassName('user_weapon')[0];
+        var cpu_weapon = document.getElementsByClassName('cpu_weapon')[0];
+        var start_button = document.getElementsByClassName('startgame')[0];
+        var btn = document.getElementsByClassName('btn'); // HTML collection!
+        var user_score = document.getElementsByClassName('user_score')[0];
+        var cpu_score = document.getElementsByClassName('cpu_score')[0];
+        var timer = document.getElementsByClassName('timer')[0];
+        var winner = document.getElementsByClassName('winner')[0];
+        var weaponText = document.getElementsByClassName('weapon'); // HTML collection!
+
+        let rock = 0;
+        let paper = 1;
+        let scissors = 2;
+
+        let userScore = 0;
+        let cpuScore = 0;
+        let userWeapon = 0;
+
+        function activateRound() {
+            for (let i = 0; i < btn.length; i++) {
+                btn[i].addEventListener('click', function() {
+                    this.style.backgroundColor = 'lightgreen';
+                    for (let j = 0; j < btn.length; j++) {
+                        btn[j].disabled = true;
+                    }
+                    for (let v = 0; v < weaponText.length; v++) {
+                        weaponText[v].innerText = "Awaiting selection...";
+                        weaponText[v].style.fontStyle = "italic";
+                    }
+                    if (this.innerText == "ROCK") {
+                        userWeapon = rock;
+                        countdown();
+                    }
+                    if (this.innerText == "PAPER") {
+                        userWeapon = paper;
+                        countdown();
+                    }
+                    if (this.innerText == "SCISSORS") {
+                        userWeapon = scissors;
+                        countdown();
+                    }
+                });
+            }
+        }
+        activateRound();
+
+        function countdown() {
+            winner.className = 'winner';
+            winner.innerText = "";
+            timer.innerText = "";
+            var seconds = 3;
+            var interval = setInterval(function(){
+                timer.innerText = seconds;
+                seconds--;
+                if (seconds < 0) {
+                    clearInterval(interval);
+                    timer.innerText = "Go!";
+                    playGame();
+                }
+            }, 1000);
+        }
+
+        function playGame() {
+            start_button.innerText = "RESTART";
+
+        // RNG for CPU & winner declarations
+            let cpuWeapon = Math.floor(Math.random() * 3);
+            if (cpuWeapon == rock) {
+                cpu_weapon.innerText = "ROCK!";
+                cpu_weapon.style.fontStyle = "normal";
+                if (userWeapon == paper) {
+                    user_weapon.innerText = "PAPER!";
+                    user_weapon.style.fontStyle = "normal";
+                    winner.innerText = "YOU WIN!";
+                    userScore++;
+                    winner.className += ' youwin';
+                } else if (userWeapon == rock) {
+                    user_weapon.innerText = "ROCK!";
+                    user_weapon.style.fontStyle = "normal";
+                    winner.innerText = "DRAW!";
+                } else if (userWeapon == scissors) {
+                    user_weapon.innerText = "SCISSORS!";
+                    user_weapon.style.fontStyle = "normal";
+                    winner.innerText = "YOU LOSE!";
+                    cpuScore++;
+                }
+            }
+            if (cpuWeapon == scissors) {
+                cpu_weapon.innerText = "SCISSORS!";
+                cpu_weapon.style.fontStyle = "normal";
+                if (userWeapon == rock) {
+                    user_weapon.innerText = "ROCK!";
+                    user_weapon.style.fontStyle = "normal";
+                    winner.innerText = "YOU WIN!";
+                    userScore++;
+                    winner.className += ' youwin';
+                } else if (userWeapon == scissors) {
+                    user_weapon.innerText = "SCISSORS!";
+                    user_weapon.style.fontStyle = "normal";
+                    winner.innerText = "DRAW!";
+                } else if (userWeapon == paper) {
+                    user_weapon.innerText = "PAPER!";
+                    user_weapon.style.fontStyle = "normal";
+                    winner.innerText = "YOU LOSE!";
+                    cpuScore++;
+                }
+            }
+            if (cpuWeapon == paper) {
+                cpu_weapon.innerText = "PAPER!";
+                cpu_weapon.style.fontStyle = "normal";
+                if (userWeapon == scissors) {
+                    user_weapon.innerText = "SCISSORS!";
+                    user_weapon.style.fontStyle = "normal";
+                    winner.innerText = "YOU WIN!";
+                    userScore++;
+                    winner.className += ' youwin';
+                } else if (userWeapon == paper) {
+                    user_weapon.innerText = "PAPER!";
+                    user_weapon.style.fontStyle = "normal";
+                    winner.innerText = "DRAW!";
+                } else if (userWeapon == rock) {
+                    user_weapon.innerText = "ROCK!";
+                    user_weapon.style.fontStyle = "normal";
+                    winner.innerText = "YOU LOSE!";
+                    cpuScore++;
+                }
+            }
+
+            user_score.innerText = userScore;
+            cpu_score.innerText = cpuScore;
+            for (let i = 0; i < btn.length; i++) {
+                btn[i].disabled = false;
+                btn[i].style.backgroundColor = 'buttonface';
+            }
+            start_button.style.display = 'flex';
+        }
+
+        start_button.addEventListener('click', function() {
+            start_button.style.display = 'none';
+            for (let v = 0; v < weaponText.length; v++) {
+                weaponText[v].innerText = "Awaiting selection...";
+                weaponText[v].style.fontStyle = "italic";
+            }
+            userScore = 0;
+            cpuScore = 0;
+            user_score.innerText = userScore;
+            cpu_score.innerText = cpuScore;
+            timer.innerText = "";
+            winner.innerText = "";
+            winner.className = 'winner';
+        });
+    </script>
+</body>
+</html>
+	
